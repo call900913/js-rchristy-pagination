@@ -18,7 +18,6 @@ FSJS project 2 - List Filter and Pagination
 ***/
 
 const lis = document.querySelectorAll('.student-item');
-console.log(lis.length);
 
 // number of items to be shown per page
 const numofitems = 10;
@@ -43,12 +42,12 @@ const showPage = (list, page) => {
   let startindex = page * numofitems - numofitems;
   let endindex = page * numofitems;
   for (i = 0; i < list.length; i++) {
-    if ((i < startindex) || (i > endindex)) {
-      lis[i].style.display = 'none';
+    lis[i].style.display = 'none';
+    if ((i >= startindex) && (i < endindex)) {
+      lis[i].style.display = '';
     };
   };
 };
-
 
 
 /***
@@ -74,7 +73,7 @@ const appendPageLinks = (list) => {
 
   for (i = 0; i < numofpages; i++) {
     let pageLink = document.createElement("li");
-    if (i == pageNumber) {
+    if (i == pageNumber-1) {
       pageLink.innerHTML = `<a class="active" href="#">${i+1}</a>`;
     } else {
       pageLink.innerHTML = `<a href="#">${i+1}</a>`;
@@ -89,7 +88,14 @@ const appendPageLinks = (list) => {
   page.appendChild(paginationLinks);
 
   // add on click event listener, highlight number box there
-  // ...className = 'active';
+  paginationLinks.addEventListener('click', (e) => {
+    let prevButton = document.querySelector(".active");
+    prevButton.className = "";
+    selectedPage = e.target.textContent;
+    // change the class
+    e.target.className = "active";
+    showPage(list, Number(selectedPage));
+  });
 
 
   /***
@@ -102,6 +108,12 @@ const appendPageLinks = (list) => {
     4) display the boxes
     5) show the page with showPage
 
+
+    what changes when someone clicks:
+    pageNumber
+    showPage changes
+    the className
   ***/
 }
+
 appendPageLinks(lis);
