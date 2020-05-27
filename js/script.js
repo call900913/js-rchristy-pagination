@@ -18,11 +18,14 @@ FSJS project 2 - List Filter and Pagination
 ***/
 
 const lis = document.querySelectorAll('.student-item');
+console.log(lis.length);
 
+// number of items to be shown per page
+const numofitems = 10;
 
 /***
-   Create the `showPage` function to hide all of the items in the
-   list except for the ten you want to show.
+   showPage function
+   hide all of the items in the list except for the ten you want to show.
 
    Pro Tips:
      - Keep in mind that with a list of 54 students, the last page
@@ -36,27 +39,69 @@ const lis = document.querySelectorAll('.student-item');
 ***/
 
 
-
 const showPage = (list, page) => {
-  let startindex = page * 10 - 10;
-  let endindex = page * 10;
+  let startindex = page * numofitems - numofitems;
+  let endindex = page * numofitems;
   for (i = 0; i < list.length; i++) {
-    if (i < startindex) || (i > endindex) {
+    if ((i < startindex) || (i > endindex)) {
       lis[i].style.display = 'none';
-    }
-  }
-
-}
+    };
+  };
+};
 
 
 
 /***
-   Create the `appendPageLinks function` to generate, append, and add
-   functionality to the pagination buttons.
+   appendPageLinks function
+   generate, append, and add functionality to the pagination buttons.
 ***/
 
+const appendPageLinks = (list) => {
+  let pageNumber = 1;
+  showPage(list, pageNumber);
+
+  const page = document.querySelector(".page");
+
+  // create container element div
+  const paginationLinks = document.createElement("div");
+  paginationLinks.className = "pagination";
+
+  // create the unordered list
+  const pageLinks = document.createElement("ul");
+
+  // number of pages
+  const numofpages = Math.ceil(list.length / numofitems);
+
+  for (i = 0; i < numofpages; i++) {
+    let pageLink = document.createElement("li");
+    if (i == pageNumber) {
+      pageLink.innerHTML = `<a class="active" href="#">${i+1}</a>`;
+    } else {
+      pageLink.innerHTML = `<a href="#">${i+1}</a>`;
+    };
+    pageLinks.appendChild(pageLink);
+  };
+
+  // append UL to DIVpagination
+  paginationLinks.appendChild(pageLinks);
+
+  // append DIVpagination to .page
+  page.appendChild(paginationLinks);
+
+  // add on click event listener, highlight number box there
+  // ...className = 'active';
 
 
+  /***
+  create the node
 
+    document.queryselector(.page).appendChild()
+    1) determine page number
+    2) highlight that number box
+    3) determine how many boxes there are going to be
+    4) display the boxes
+    5) show the page with showPage
 
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+  ***/
+}
+appendPageLinks(lis);
