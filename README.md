@@ -3,7 +3,7 @@
 We have a list of contacts (name, email, etc), such as that which can be found in the index.html file.
 
 The project can be viewed here:
-[https://call900913.github.io/js-rchristy-pagination/](https://call900913.github.io/js-rchristy-pagination/){:target="blank"}
+[https://call900913.github.io/js-rchristy-pagination/](https://call900913.github.io/js-rchristy-pagination/){:target="_blank"}
 
 It began with a long list: the list in its entirety.
 
