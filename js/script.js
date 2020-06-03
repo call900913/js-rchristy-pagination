@@ -22,6 +22,10 @@ const lis = document.querySelectorAll('.student-item');
 // number of items to be shown per page
 const numofitems = 10;
 
+// create container element div
+const paginationLinks = document.createElement("div");
+paginationLinks.className = "pagination";
+
 /***
    showPage function
    hide all of the items in the list except for the ten you want to show.
@@ -42,9 +46,9 @@ const showPage = (list, page) => {
   let startindex = page * numofitems - numofitems;
   let endindex = page * numofitems;
   for (i = 0; i < list.length; i++) {
-    lis[i].style.display = 'none';
+    list[i].style.display = 'none';
     if ((i >= startindex) && (i < endindex)) {
-      lis[i].style.display = '';
+      list[i].style.display = '';
     };
   };
 };
@@ -60,11 +64,7 @@ const appendPageLinks = (list) => {
   showPage(list, pageNumber);
 
   const page = document.querySelector(".page");
-
-  // create container element div
-  const paginationLinks = document.createElement("div");
-  paginationLinks.className = "pagination";
-
+  paginationLinks.innerHTML = "";
   // create the unordered list
   const pageLinks = document.createElement("ul");
 
@@ -116,4 +116,59 @@ const appendPageLinks = (list) => {
   ***/
 }
 
+const searchTerm = () => {
+  filteredStudents = [];
+  if (searchString.length === 0) {
+    appendPageLinks(lis);
+  } else {
+    // do something here for filteredStudents
+    for (let i = 0; i < lis.length; i++) {
+      lis[i].style.display = 'none';
+      let name = lis[i].querySelector('h3').textContent;
+      // console.log("name: " + name);
+      // console.log("name.includes(searchString): " + name.includes(searchString))
+      if (name.includes(searchString)) {
+        console.log("lis[i]" + lis[i].style)
+        lis[i].style.display = '';
+        filteredStudents.push(lis[i]);
+      }
+    }
+    console.log(lis);
+    console.log(searchString);
+    for (let j = 0; j < filteredStudents.length; j++) {
+      filteredStudents[j].style.display = 'none';
+      console.log(filteredStudents.style)
+    }
+    appendPageLinks(filteredStudents);
+  };
+};
+
+const addSearchFeature = () => {
+  // create the container div
+  const searchDiv = document.createElement("div");
+  searchDiv.className = "student-search";
+  const searchInput = document.createElement("input");
+  searchInput.placeholder = "Search for students... ";
+  searchInput.addEventListener('input', () => {
+    searchString = searchInput.value;
+    searchTerm();
+  });
+  const searchButton = document.createElement("button");
+  searchButton.textContent = "Search";
+  searchDiv.append(searchInput, searchButton);
+  const pageHeader = document.querySelector(".page-header");
+  pageHeader.appendChild(searchDiv);
+}
+
 appendPageLinks(lis);
+addSearchFeature();
+
+
+
+/*
+
+// go over the student list
+// if the thing contains the searchTerm, add the item to filteredStudents.
+//
+
+ */
